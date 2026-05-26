@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MetaForge Platform 🛠️
 
-## Getting Started
+**MetaForge** is a production-grade, metadata-driven dynamic runtime application builder platform. It enables developers to compile natural language prompts instantly into production-grade multi-entity interfaces, schemas, validation boundaries, and REST APIs—with **zero compilation steps** and extreme environment resilience.
 
-First, run the development server:
+---
+
+## 🌟 Core Features
+
+- 🖥️ **Dynamic React Component Rendering**: Generates beautiful inputs, selects, checkboxes, text areas, and calendars at runtime without rebuilds.
+- 🧪 **Dynamic Form & Table grids**: Uses JSON configuration specs dynamically to mount React Hook Form schemas and searchable, sortable, paginated data log grids.
+- ⚡ **Event-Driven Cascade Workflows**: OBS-driven background triggers mapping events like `employees.created` or `tasks.deleted` to automated notifications, log records, or cascading database insertions.
+- 🛡️ **Offline Resilient sandbox Database**: Highly robust db client that automatically falls back to an in-memory high-fidelity sandbox database if PostgreSQL or Prisma is misconfigured or offline.
+- 📥 **Case-Insensitive CSV Ingestion**: Fuzzy maps CSV columns to entity fields case-insensitively, validates all rows using dynamic Zod schemas, lists valid vs invalid records with diagnostics, and saves them in parallel.
+- 🌐 **Multilingual Translation Context (i18n)**: Instant switching between **English (EN)**, **Spanish (ES)**, **German (DE)**, and **French (FR)** across all dashboards, builder consoles, system logs, and notification drawers.
+- 📱 **Resilient PWA & Service Workers**: Full-featured service worker caching static shells and visual connectivity indicators.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 15 (App Router with Turbopack support)
+- **State Management**: Zustand
+- **Database Engine**: Prisma + PostgreSQL (with resilient high-fidelity In-Memory Database fallback)
+- **Validation Shield**: Zod + React Hook Form
+- **Styling system**: TailwindCSS (Harmonious dark modern aesthetics)
+- **Icons Registry**: Lucide React
+
+---
+
+## 🚀 Quick Start
+
+### 1. Prerequisite Setup
+
+Configure your environmental variables in `.env` in the root of the project:
+
+```env
+DATABASE_URL="postgresql://username:password@localhost:5432/metaforge?schema=public"
+JWT_SECRET="forge-ai-super-secret-key-development-2026-xyz"
+GEMINI_API_KEY="YOUR_GEMINI_API_KEY_HERE"  # Optional: Reverts to intelligent local parser if omitted
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Run Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) on your local browser to access the Developer Console!
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📂 Codebase Architecture
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+├── prisma/
+│   └── schema.prisma         # Database model spec
+├── public/
+│   ├── manifest.json         # PWA specifications
+│   └── sw.js                 # Service worker offline cache
+├── src/
+│   ├── app/
+│   │   ├── api/              # Dynamic REST CRUD routes, auth, and AI compilers
+│   │   ├── dashboard/        # Main apps workspace and live builder consoles
+│   │   ├── layout.tsx        # Modern dark theme shell
+│   │   └── page.tsx          # Clean Console Authentication page
+│   ├── components/
+│   │   ├── forms/            # DynamicForm mapping Zod schemas
+│   │   ├── runtime/          # Error boundaries and component registries
+│   │   └── tables/           # DynamicTable and CsvImporter columns mapper
+│   ├── lib/
+│   │   ├── ai/               # Local and Google Gemini schema compiler engines
+│   │   ├── logger/           # Engine log compiler & debugger
+│   │   ├── runtime/          # Cascadic workflows & Next.js static starter ZIP exporter
+│   │   └── schema/           # Defensively parsing auto-healer validation schemas
+│   └── store/
+│       ├── authStore.ts      # Zustand developer session store
+│       └── i18nStore.ts      # Zustand multilingual translation store
+```
