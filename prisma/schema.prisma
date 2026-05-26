@@ -1,0 +1,39 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String      @id @default(uuid())
+  email     String      @unique
+  password  String
+  createdAt DateTime    @default(now())
+  apps      AppConfig[]
+}
+
+model AppConfig {
+  id        String          @id @default(uuid())
+  userId    String
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  version   Int             @default(1)
+  schema    Json
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  records   RuntimeRecord[]
+}
+
+model RuntimeRecord {
+  id         String    @id @default(uuid())
+  appId      String
+  app        AppConfig @relation(fields: [appId], references: [id], onDelete: Cascade)
+  entityName String
+  payload    Json
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@index([appId, entityName])
+}
