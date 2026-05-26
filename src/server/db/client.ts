@@ -15,12 +15,21 @@ let fallbackStore: {
   records: [],
 };
 
-// Initialize Prisma Client
-export const prisma = globalForPrisma.prisma || new PrismaClient({
-  log: process.env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'],
-});
+// Initialize Prisma Client with error handling for Vercel builds
+let prismaInstance: PrismaClient | null = null;
 
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
+try {
+  prismaInstance = globalForPrisma.prisma || new PrismaClient({
+    log: process.env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'],
+  });
+  if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prismaInstance;
+} catch (error) {
+  // During build or without DATABASE_URL, Prisma initialization fails
+  // This is expected - we fall back to in-memory store
+  runtimeLogger.warn('database', 'Prisma initialization skipped during build. Using fallback memory store.');
+}
+
+export const prisma = prismaInstance as any;
 
 // Resilient wrapper checking connection
 async function checkConnection() {
